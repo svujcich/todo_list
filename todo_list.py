@@ -63,56 +63,76 @@ while True:
             print("What would you like to delete?")
             delete_todo = input("> ").upper().strip()
 
-            # check if item being deleted is in the list more than once.
-            word_count = 0
-    
-            for i in todo_list:
-                if i == delete_todo:
-                    word_count = word_count + 1
+            # check if entry is valid
+            while True: 
+                if (delete_todo in todo_list) or delete_todo == "C":
+                    break
+                else:
+                    print("That item is not in the list")
+                    print()
+                    print("Choose from the following:")
+                    print()
+                    for i in todo_list:
+                        print(i)
+                    print("[C]ancel")
+                    delete_todo = input("> ").upper().strip()
                     
-            # if item being deleted is in list more than once, clarify which instance to delete        
-            if word_count > 1:
-                print()
-                print(f"{delete_todo} appears {word_count} times in todo_list: ")
-                print(f"Which {delete_todo} do you want to delete? (select number)")
+            # Cancel if user changes mind
+            if delete_todo == "C":
+                print("Nothing deleted.")
+                print(divider)
+                
+            elif delete_todo != "C":
+                # check if item being deleted is in the list more than once.
+                word_count = 0
         
-                instance = 0
-                
-                for task in (todo_list):
-                    if task == delete_todo:
-                        instance = instance + 1
-                        print(f"[{instance}] {task}")
+                for i in todo_list:
+                    if i == delete_todo:
+                        word_count = word_count + 1
                         
-                    else:
-                        print(task) 
-                
-                delete_selection = int(input("> "))
-
-                # BUG***** how do you catch anything that isn't an int with else?
-                # once item is clarified, loop back through todo_list
-                # delete item 
-
-                while True:
-                    # if user enters number correctly
-                    if int(delete_selection >=1) and int(delete_selection) <= instance:
+                # if item being deleted is in list more than once, clarify which instance to delete        
+                if (word_count > 1):
+                    print()
+                    print(f"{delete_todo} appears {word_count} times in todo_list: ")
+                    print(f"Which {delete_todo} do you want to delete? (select number)")
+            
+                    instance = 0
                     
-                        new_instance = 0
+                    for task in (todo_list):
+                        if task == delete_todo:
+                            instance = instance + 1
+                            print(f"[{instance}] {task}")
+                            
+                        else:
+                            print(task) 
+                    
+                    delete_selection = int(input("> "))
     
-                        # find/delete what they said to delete, break the loop
-                        for i, item in enumerate(todo_list):
-                            if item == delete_todo:
-                                new_instance = new_instance + 1
+                    # BUG***** how do you catch anything that isn't an int with else?
+                    # once item is clarified, loop back through todo_list
+                    # delete item 
     
-                                if new_instance == delete_selection:
-                                    todo_list.pop(i)
-                                    print(f"{delete_todo} removed from todo list")
-                                    print(divider)
-                        break
-                                    
-                    # otherwise, ask for a valid number
-                    else:
-                        print("Try again with a valid selection")
-                        delete_selection = int(input("> "))
+                    while True:
+                        # if user enters number correctly
+                        if int(delete_selection >=1) and int(delete_selection) <= instance:
+                        
+                            new_instance = 0
+        
+                            # find/delete what they said to delete, break the loop
+                            for i, item in enumerate(todo_list):
+                                if item == delete_todo:
+                                    new_instance = new_instance + 1
+        
+                                    if new_instance == delete_selection:
+                                        todo_list.pop(i)
+                                        print(f"{delete_todo} removed from todo list")
+                                        print(divider)
+                            break
+                                        
+                        # otherwise, ask for a valid number
+                        else:
+                            print("Try again with a valid selection")
+                            delete_selection = int(input("> "))
 
             # only instance in list deleted
             else:
@@ -127,18 +147,22 @@ while True:
             print("No tasks to delete!")
             print(divider)
 
+    # EDIT an item
     elif user_option == "E":
-            
+
+        # if list has items, ask which item the user would like to edit
         if len(todo_list) >=1:
             print("What task would you like to edit?")
             edit_selection = input("> ").upper().strip()
             
             counter = 0
 
+            # check if there are duplicates in list
             for i in todo_list:
                 if i == edit_selection:
                     counter = counter + 1
 
+            # if duplicates, clarify which instance to edit
             if counter > 1:
                 print()
                 print(f"{edit_selection} appears {counter} times")
@@ -197,20 +221,20 @@ while True:
                             print("Try again with a valid selection! (Y / N)")
                             replace_choice = input("> ").upper().strip()
                             
-    
-            # else:
-            #     print("That item is not in the list!")
-            #     print("Choose from the following:")
-            #     print()
-            #     for i in todo_list:
-            #         print(i)
-            #     print()
+            # if list does not have duplicates, edit item
+            else:
+                print("That item is not in the list!")
+                print("Choose from the following:")
+                print()
+                for i in todo_list:
+                    print(i)
+                print()
                     
         else:
             print("No items on your todo_list")
             print()
             
-
+    # VIEW todo list 
     elif user_option == "V":
 
         if len(todo_list) >=1:
