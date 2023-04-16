@@ -10,6 +10,7 @@ print("[Q]uit the program")
 print("")
 
 todo_list = []
+divider = ("-----------------")
 
 while True:
     print("Choose An Option:")
@@ -33,7 +34,7 @@ while True:
         if add_todo not in todo_list:
             todo_list.append(add_todo)
             print(f"{add_todo} added to todo list!")
-            print("")
+            print(divider)
 
         else: 
             print(f"{add_todo} is already on your todo list")
@@ -45,11 +46,11 @@ while True:
                 if add_again == "Y":
                     todo_list.append(add_todo)
                     print(f"{add_todo} added to todo list!")
-                    print()
+                    print(divider)
                     break
                 elif add_again == "N":
                     print("Nothing tasks were added.")
-                    print()
+                    print(divider)
                     break
                 else:
                     print("Try again with a valid selection! (Y / N)")
@@ -104,27 +105,27 @@ while True:
     
                                 if new_instance == delete_selection:
                                     todo_list.pop(i)
-                                print(f"{delete_todo} removed from todo list")
-                                print()
-                                break
+                                    print(f"{delete_todo} removed from todo list")
+                                    print(divider)
+                        break
                                     
                     # otherwise, ask for a valid number
                     else:
                         print("Try again with a valid selection")
-                        delete_selection = input("> ")
+                        delete_selection = int(input("> "))
 
             # only instance in list deleted
             else:
-                for i in todo_list:
-                    if i == delete_todo:
-                        todo_list[i].pop()
+                for i, task in enumerate(todo_list):
+                    if task == delete_todo:
+                        todo_list.pop(i)
                 print(f"{delete_todo} deleted from list")
-                print()
+                print(divider)
                 
         # nothing in list to delete
         else:
             print("No tasks to delete!")
-            print()
+            print(divider)
 
     elif user_option == "E":
             
@@ -220,9 +221,10 @@ while True:
             for i in todo_list:
                 print(i)
             print()
+            print(divider)
         else:
             print("No items on your todo list!")
-            print()
+            print(divider)
 
     elif user_option == "Q":
         
@@ -240,8 +242,8 @@ while True:
 
         if choice == "Y":
             print("Goodbye!")
-            break   
+            break
+
+        elif choice == "N":
+            print(divider)
         
-    else:
-        print("Try again with a valid selection!")
-        print()
