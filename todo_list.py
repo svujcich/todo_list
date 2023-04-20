@@ -64,6 +64,7 @@ while True:
             delete_todo = input("> ").upper().strip()
 
             # check if entry is valid
+            # "C" for cancel
             while True: 
                 if (delete_todo in todo_list) or delete_todo == "C":
                     break
@@ -95,6 +96,7 @@ while True:
                     print()
                     print(f"{delete_todo} appears {word_count} times in todo_list: ")
                     print(f"Which {delete_todo} do you want to delete? (select number)")
+                    print()
             
                     instance = 0
                     
@@ -104,44 +106,49 @@ while True:
                             print(f"[{instance}] {task}")
                             
                         else:
-                            print(task) 
-                    
-                    delete_selection = int(input("> "))
-    
-                    # BUG***** how do you catch anything that isn't an int with else?
-                    # once item is clarified, loop back through todo_list
-                    # delete item 
-    
-                    while True:
-                        # if user enters number correctly
-                        if int(delete_selection >=1) and int(delete_selection) <= instance:
-                        
-                            new_instance = 0
-        
-                            # find/delete what they said to delete, break the loop
-                            for i, item in enumerate(todo_list):
-                                if item == delete_todo:
-                                    new_instance = new_instance + 1
-        
-                                    if new_instance == delete_selection:
-                                        todo_list.pop(i)
-                                        print(f"{delete_todo} removed from todo list")
-                                        print(divider)
-                            break
-                                        
-                        # otherwise, ask for a valid number
-                        else:
-                            print("Try again with a valid selection")
-                            delete_selection = int(input("> "))
-
-            # only instance in list deleted
-            else:
-                for i, task in enumerate(todo_list):
-                    if task == delete_todo:
-                        todo_list.pop(i)
-                print(f"{delete_todo} deleted from list")
-                print(divider)
+                            print(task)
+                            
+                    print()        
                 
+                    # make sure user is entering a numeric value
+                    while True:
+                        
+                        try:
+                            delete_selection = int(input("> "))
+                            
+                            # if value entered is numberic, check to see if it is in the range of the # of instances
+                            if delete_selection >=1 and delete_selection <= instance:
+                                
+                                new_instance = 0
+        
+                                # find/delete what they said to delete, break the loop
+                                for i, item in enumerate(todo_list):
+                                    if item == delete_todo:
+                                        new_instance = new_instance + 1
+            
+                                        if new_instance == delete_selection:
+                                            todo_list.pop(i)
+                                            print(f"{delete_todo} removed from todo list")
+                                            print(divider)
+        
+                                # breaks out of both the try/except block and while loop
+                                break
+                            else:
+                                print("try again using a valid number")
+                                continue
+                                
+                        except ValueError:
+                            print("try again using a valid number")
+                            continue
+
+                # only instance in list deleted
+                else:
+                    for i, task in enumerate(todo_list):
+                        if task == delete_todo:
+                            todo_list.pop(i)
+                    print(f"{delete_todo} deleted from list")
+                    print(divider)
+                    
         # nothing in list to delete
         else:
             print("No tasks to delete!")
@@ -181,7 +188,8 @@ while True:
                 print()
                 selection = input("> ").upper()
 
-                #BUG - how do I get the else statement to catch anything that is not an int?
+                # ask for a valid entry 
+                #BUG***** - how do I get the else statement to catch anything that is not an int?
                 while True:
 
                     if (int(selection) >= 1) and (int(selection) <= counter):
@@ -191,12 +199,13 @@ while True:
                     else:
                         print("try again using a valid selection!")
                         print("Which instance would you like to edit?")
-                        selection = input(">")
+                        selection = input("> ")
 
                                           
                 print("What would you like to replace it with?")
                 replace_selection = input("> ").upper().strip()
-        
+
+                # If task user wants to replace is already in list, ask them if they are sure
                 if replace_selection in todo_list:
                     print(f"{replace_selection} is already in the todo list")
                     print(f"do you still want to edit {edit_selection} to {replace_selection}?")
@@ -221,15 +230,16 @@ while True:
                             print("Try again with a valid selection! (Y / N)")
                             replace_choice = input("> ").upper().strip()
                             
-            # if list does not have duplicates, edit item
-            else:
+                # if task user wanted to enter is not in list, edit taks
+            elif (replace_selection not in todo_list) and (replace_selection != "N"):    
                 print("That item is not in the list!")
                 print("Choose from the following:")
                 print()
                 for i in todo_list:
                     print(i)
                 print()
-                    
+                
+        # if not items in list, do nothing
         else:
             print("No items on your todo_list")
             print()
@@ -271,3 +281,4 @@ while True:
         elif choice == "N":
             print(divider)
         
+    
